@@ -47,10 +47,10 @@ jobs:
                 const formattedTagName = tagName.replace(/{{VERSION}}/g, version);
                 const directory = path.resolve(__dirname, `images/${imageName}/${formattedTagName}`);
 
-                contentsBuild.push(`                    -   directory: "${path.relative(__dirname, directory)}"
+                contentsBuild.push(`                    -   directory: "./${path.relative(__dirname, directory)}"
                         image: "chapterjason/${imageName}"
                         tag: "${formattedTagName}"`);
-                contentsPublish.push(`                    -   directory: "${path.relative(__dirname, directory)}"
+                contentsPublish.push(`                    -   directory: "./${path.relative(__dirname, directory)}"
                         image: "chapterjason/${imageName}"
                         tag: "${formattedTagName}"`);
 
