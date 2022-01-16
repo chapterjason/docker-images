@@ -48,9 +48,11 @@ jobs:
                 const directory = path.resolve(__dirname, `images/${imageName}/${formattedTagName}`);
 
                 contentsBuild.push(`                    -   directory: "${path.relative(__dirname, directory)}"
-                        tag: "chapterjason/${imageName}:${formattedTagName}"`)
+                        image: "chapterjason/${imageName}"
+                        tag: "${formattedTagName}"`);
                 contentsPublish.push(`                    -   directory: "${path.relative(__dirname, directory)}"
-                        tag: "chapterjason/${imageName}:${formattedTagName}"`)
+                        image: "chapterjason/${imageName}"
+                        tag: "${formattedTagName}"`);
 
             }
         }
@@ -58,11 +60,20 @@ jobs:
 
     contentsBuild.push(`        steps:
             -   uses: actions/checkout@v2
-            -   name: Build Docker images
-                uses: docker/build-push-action@v2.2.2
+            
+            -   name: Extract metadata (tags, labels) for Docker
+                id: meta
+                uses: docker/metadata-action@v3
+                with:
+                    images: $\{{ matrix.image }}
+                    tags: type=raw,value=$\{{ matrix.tag }}
+            
+            -   name: Build and push Docker images
+                uses: docker/build-push-action@v2
                 with:
                     context: $\{{ matrix.directory }}
-                    tags: $\{{ matrix.tag }}`)
+                    tags: $\{{ steps.meta.outputs.tags }}
+                    labels: $\{{ steps.meta.outputs.labels }}`)
 
     contentsPublish.push(`        steps:
             -   uses: actions/checkout@v2
@@ -71,11 +82,20 @@ jobs:
                 with:
                     username: $\{{ secrets.DOCKERHUB_USERNAME }}
                     password: $\{{ secrets.DOCKERHUB_TOKEN }}
+                    
+            -   name: Extract metadata (tags, labels) for Docker
+                id: meta
+                uses: docker/metadata-action@v3
+                with:
+                    images: $\{{ matrix.image }}
+                    tags: type=raw,value=$\{{ matrix.tag }}
+                    
             -   name: Build and push Docker images
                 uses: docker/build-push-action@v2
                 with:
                     context: $\{{ matrix.directory }}
-                    tags: $\{{ matrix.tag }}
+                    tags: $\{{ steps.meta.outputs.tags }}
+                    labels: $\{{ steps.meta.outputs.labels }}
                     push: true`)
 
     await fs.writeFile(buildFile, contentsBuild.join('\n'));
