@@ -77,10 +77,11 @@ jobs:
 
     contentsPublish.push(`        steps:
             -   uses: actions/checkout@v2
+
             -   name: Docker Login
                 uses: docker/login-action@v1
                 with:
-                    username: chapterjason
+                    username: $\{{ secrets.DOCKERHUB_USERNAME }}
                     password: $\{{ secrets.DOCKERHUB_TOKEN }}
                     
             -   name: Extract metadata (tags, labels) for Docker
