@@ -5,20 +5,20 @@ const images = {
             "8.1"
         ],
         tags: {
-            "{{VERSION}}-cli": {
-                tag: "{{VERSION}}-cli",
+            "{{VERSION}}-cli-alpine": {
+                tag: "{{VERSION}}-cli-alpine",
                 templates: ["php", "composer"],
             },
-            "{{VERSION}}-cli-node": {
-                tag: "{{VERSION}}-cli",
+            "{{VERSION}}-cli-node-alpine": {
+                tag: "{{VERSION}}-cli-alpine",
                 templates: ["php", "composer", "node"],
             },
-            "{{VERSION}}-fpm": {
-                tag: "{{VERSION}}-fpm",
+            "{{VERSION}}-fpm-alpine": {
+                tag: "{{VERSION}}-fpm-alpine",
                 templates: ["php", "fpm", "composer"],
             },
-            "{{VERSION}}-fpm-node": {
-                tag: "{{VERSION}}-fpm",
+            "{{VERSION}}-fpm-node-alpine": {
+                tag: "{{VERSION}}-fpm-alpine",
                 templates: ["php", "fpm", "composer", "node"],
             },
         },
@@ -29,20 +29,20 @@ const images = {
             "8.1"
         ],
         tags: {
-            "{{VERSION}}-fpm": {
-                tag: "{{VERSION}}-fpm",
+            "{{VERSION}}-fpm-alpine": {
+                tag: "{{VERSION}}-fpm-alpine",
                 templates: ["symfony"],
             },
-            "{{VERSION}}-fpm-node": {
-                tag: "{{VERSION}}-fpm-node",
+            "{{VERSION}}-fpm-node-alpine": {
+                tag: "{{VERSION}}-fpm-node-alpine",
                 templates: ["symfony"],
             },
-            "{{VERSION}}-cli": {
-                tag: "{{VERSION}}-cli",
+            "{{VERSION}}-cli-alpine": {
+                tag: "{{VERSION}}-cli-alpine",
                 templates: ["symfony"],
             },
-            "{{VERSION}}-cli-node": {
-                tag: "{{VERSION}}-cli-node",
+            "{{VERSION}}-cli-node-alpine": {
+                tag: "{{VERSION}}-cli-node-alpine",
                 templates: ["symfony"],
             },
         },

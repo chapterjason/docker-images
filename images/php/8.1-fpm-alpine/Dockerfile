@@ -1,4 +1,4 @@
-ARG PHP_BASE_IMAGE_TAG=8.1-cli
+ARG PHP_BASE_IMAGE_TAG=8.1-fpm-alpine
 ARG PHP_BASE_IMAGE=php:${PHP_BASE_IMAGE_TAG}
 
 FROM ${PHP_BASE_IMAGE}
@@ -67,16 +67,18 @@ RUN set -eux; \
 	apk add --no-cache --virtual .phpexts-rundeps $runDeps; \
 	apk del .build-deps; sync
 
+COPY php-fpm-docker-healthcheck.sh /usr/local/bin/docker-healthcheck
+RUN chmod +x /usr/local/bin/docker-healthcheck
+
+HEALTHCHECK --interval=10s --timeout=3s --retries=3 CMD ["docker-healthcheck"]
+
+COPY php-fpm.d/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
+
+VOLUME /var/run/php
+
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 # see https://getcomposer.org/doc/03-cli.md#composer-allow-superuser
 ENV COMPOSER_ALLOW_SUPERUSER=1
 
 ENV PATH="${PATH}:/root/.composer/vendor/bin"
-
-# Add NodeJS
-RUN apk add --no-cache \
-        nodejs \
-        yarn \
-        npm \
-    ;
