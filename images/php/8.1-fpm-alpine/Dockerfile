@@ -10,14 +10,10 @@ ARG APCU_VERSION=5.1.21
 RUN apk add --no-cache \
         acl \
         fcgi \
-        freetype \
-        libpng \
-        libjpeg-turbo \
         file \
         gnu-libiconv \
         gettext \
         git \
-        jq \
     ; sync
 
 # install gnu-libiconv and set LD_PRELOAD env to make iconv work fully on Alpine image.
@@ -30,9 +26,6 @@ RUN set -eux; \
 	    icu-dev \
 	    libzip-dev \
 	    zlib-dev \
-	    freetype-dev \
-	    libpng-dev \
-	    libjpeg-turbo-dev \
 	    postgresql-dev \
 	; \
     docker-php-ext-configure zip; \
@@ -40,9 +33,7 @@ RUN set -eux; \
 	    intl \
 	    zip \
 	    sockets \
-	    gd \
 	    pdo \
-	    pdo_mysql \
 	    pdo_pgsql \
 	; \
 	pecl install \
