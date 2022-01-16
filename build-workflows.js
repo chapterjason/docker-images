@@ -18,7 +18,7 @@ jobs:
         strategy:
             fail-fast: true
             matrix:
-                includes:`];
+                include:`];
 
     const contentsPublish = [`name: Publish Docker Images
 
@@ -34,7 +34,7 @@ jobs:
         strategy:
             fail-fast: true
             matrix:
-                includes:`];
+                include:`];
 
     for await (const imageName of imageNames) {
         const image = images[imageName];

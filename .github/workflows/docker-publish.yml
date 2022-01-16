@@ -12,7 +12,7 @@ jobs:
         strategy:
             fail-fast: true
             matrix:
-                includes:
+                include:
                     -   directory: "images/php/8.1-cli"
                         image: "chapterjason/php"
                         tag: "8.1-cli"
