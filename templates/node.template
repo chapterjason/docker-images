@@ -1,0 +1,7 @@
+
+# Add NodeJS
+RUN apk add --no-cache \
+        nodejs \
+        yarn \
+        npm \
+    ;

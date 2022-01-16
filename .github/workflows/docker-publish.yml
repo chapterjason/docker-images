@@ -1,0 +1,46 @@
+name: Publish Docker Images
+
+on:
+  push:
+  schedule:
+    - cron: 0 0 * * 0
+
+jobs:
+    build:
+        runs-on: ubuntu-20.04
+
+        strategy:
+            fail-fast: true
+            matrix:
+                includes:
+                    -   directory: "images/php/8.1-cli"
+                        tag: "chapterjason/php:8.1-cli"
+                    -   directory: "images/php/8.1-cli-node"
+                        tag: "chapterjason/php:8.1-cli-node"
+                    -   directory: "images/php/8.1-fpm"
+                        tag: "chapterjason/php:8.1-fpm"
+                    -   directory: "images/php/8.1-fpm-node"
+                        tag: "chapterjason/php:8.1-fpm-node"
+                    -   directory: "images/symfony-php/8.1-fpm"
+                        tag: "chapterjason/symfony-php:8.1-fpm"
+                    -   directory: "images/symfony-php/8.1-fpm-node"
+                        tag: "chapterjason/symfony-php:8.1-fpm-node"
+                    -   directory: "images/symfony-php/8.1-cli"
+                        tag: "chapterjason/symfony-php:8.1-cli"
+                    -   directory: "images/symfony-php/8.1-cli-node"
+                        tag: "chapterjason/symfony-php:8.1-cli-node"
+                    -   directory: "images/symfony-caddy/2-builder-alpine"
+                        tag: "chapterjason/symfony-caddy:2-builder-alpine"
+        steps:
+            -   uses: actions/checkout@v2
+            -   name: Docker Login
+                uses: docker/login-action@v1.8.0
+                with:
+                    username: ${{ secrets.DOCKERHUB_USERNAME }}
+                    password: ${{ secrets.DOCKERHUB_TOKEN }}
+            -   name: Build and push Docker images
+                uses: docker/build-push-action@v2.2.2
+                with:
+                    context: ${{ matrix.directory }}
+                    tags: ${{ matrix.tag }}
+                    push: true
