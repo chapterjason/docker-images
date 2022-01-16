@@ -67,12 +67,12 @@ jobs:
     contentsPublish.push(`        steps:
             -   uses: actions/checkout@v2
             -   name: Docker Login
-                uses: docker/login-action@v1.8.0
+                uses: docker/login-action@v1
                 with:
                     username: $\{{ secrets.DOCKERHUB_USERNAME }}
                     password: $\{{ secrets.DOCKERHUB_TOKEN }}
             -   name: Build and push Docker images
-                uses: docker/build-push-action@v2.2.2
+                uses: docker/build-push-action@v2
                 with:
                     context: $\{{ matrix.directory }}
                     tags: $\{{ matrix.tag }}

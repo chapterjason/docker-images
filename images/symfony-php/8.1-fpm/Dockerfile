@@ -1,7 +1,7 @@
-ARG SYMFONY-PHP_BASE_IMAGE_TAG=8.1-fpm
-ARG SYMFONY-PHP_BASE_IMAGE=chapterjason/php:${SYMFONY-PHP_BASE_IMAGE_TAG}
+ARG SYMFONY_PHP_BASE_IMAGE_TAG=8.1-fpm
+ARG SYMFONY_PHP_BASE_IMAGE=chapterjason/php:${SYMFONY_PHP_BASE_IMAGE_TAG}
 
-FROM ${SYMFONY-PHP_BASE_IMAGE}
+FROM ${SYMFONY_PHP_BASE_IMAGE}
 
 COPY docker/php/conf.d/symfony.ini-production $PHP_INI_DIR/conf.d/symfony.ini-production
 COPY docker/php/conf.d/symfony.ini-development $PHP_INI_DIR/conf.d/symfony.ini-development

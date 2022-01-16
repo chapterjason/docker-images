@@ -4,6 +4,7 @@ const {images} = require("./config");
 
 function createImageArgs(name, image, tag) {
     name = name.toUpperCase();
+    name = name.replace('-', '_');
 
     return `ARG ${name}_BASE_IMAGE_TAG=${tag}
 ARG ${name}_BASE_IMAGE=${image}:$\{${name}_BASE_IMAGE_TAG}`;
@@ -69,7 +70,7 @@ async function runtime() {
                 const file = `${directory}/Dockerfile`;
                 const content = [
                     createImageArgs(imageName, from, formattedFromTagName),
-                    `FROM $\{${imageName.toUpperCase()}_BASE_IMAGE}`
+                    `FROM $\{${imageName.toUpperCase().replace('-', '_')}_BASE_IMAGE}`
                 ];
 
                 for await (const templateName of templateNames) {
