@@ -44,6 +44,9 @@ RUN set -eux; \
     ; \
     pecl install \
         apcu-${APCU_VERSION} \
+        {% for dependency in php_pecl_install|default([]) %}
+        {{ dependency }} \
+        {% endfor %}
     ; \
     pecl clear-cache; \
     docker-php-ext-enable \

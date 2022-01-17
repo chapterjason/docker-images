@@ -40,7 +40,7 @@ RUN set -eux; \
             ; \
     pecl install \
         apcu-${APCU_VERSION} \
-    ; \
+            ; \
     pecl clear-cache; \
     docker-php-ext-enable \
         apcu \
