@@ -88,8 +88,8 @@ export async function bootstrap(): Promise<RuntimeContext> {
                 "snapcast",
             ],
             variants: [
-                { sourceTag: "{{VERSION}}", targetTag: "{{VERSION}}-server", context: { server: true } },
-                { sourceTag: "{{VERSION}}", targetTag: "{{VERSION}}-client", context: { client: true } },
+                { sourceTag: "{{VERSION}}", targetTag: "{{VERSION}}-server-alpine", context: { server: true } },
+                { sourceTag: "{{VERSION}}", targetTag: "{{VERSION}}-client-alpine", context: { client: true } },
             ],
         },
     }
