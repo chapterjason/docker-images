@@ -1,5 +1,5 @@
 import * as path from "path";
-import { promises as fs, statSync } from "fs";
+import { existsSync, promises as fs, statSync } from "fs";
 
 export function renderTag(tag: string, version: string) {
     return tag.replace(/{{VERSION}}/g, version);
@@ -28,6 +28,10 @@ export async function getFiles(directory: string) {
 
 export async function getFilesFromBase(directory: string) {
     directory = path.resolve(__dirname, directory);
+
+    if (!existsSync(directory)) {
+        return [];
+    }
 
     const files = await getFiles(directory);
 

@@ -1,0 +1,27 @@
+
+WORKDIR /app
+
+{% if client is defined and client is same as(true) %}
+RUN set -eux; \
+    apk add --no-cache snapcast-client; sync
+
+COPY snapcast-client-entrypoint.sh /usr/local/bin/docker-entrypoint
+{% endif %}
+
+{% if server is defined and server is same as(true) %}
+EXPOSE 1704
+EXPOSE 1780
+EXPOSE 1705
+
+RUN set -eux; \
+    mkdir -p /app/files; \
+    apk add --no-cache snapcast-server mpg123; sync
+
+COPY snapcast-server-entrypoint.sh /usr/local/bin/docker-entrypoint
+COPY snapcast-server.conf /etc/conf.d/snapcast-server
+COPY asound.conf /etc/asound.conf
+{% endif %}
+
+RUN chmod +x /usr/local/bin/docker-entrypoint
+
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint"]

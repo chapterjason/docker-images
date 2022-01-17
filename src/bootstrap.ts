@@ -25,6 +25,7 @@ export async function bootstrap(): Promise<RuntimeContext> {
 
     templateRegistry.register("php", new Template('../templates/php.dockerfile.twig'));
     templateRegistry.register("caddy", new Template('../templates/caddy.dockerfile.twig'));
+    templateRegistry.register("snapcast", new Template('../templates/snapcast.dockerfile.twig'));
 
     const imageConfigurations: Record<string, ImageConfiguration> = {
         "php": {
@@ -75,6 +76,20 @@ export async function bootstrap(): Promise<RuntimeContext> {
             ],
             variants: [
                 { sourceTag: "{{VERSION}}-builder-alpine" },
+            ],
+        },
+        "snapcast": {
+            sourceImage: "alpine",
+            targetImage: "chapterjason/snapccast",
+            versions: [
+                "3",
+            ],
+            templates: [
+                "snapcast",
+            ],
+            variants: [
+                { sourceTag: "{{VERSION}}", targetTag: "{{VERSION}}-server", context: { server: true } },
+                { sourceTag: "{{VERSION}}", targetTag: "{{VERSION}}-client", context: { client: true } },
             ],
         },
     }

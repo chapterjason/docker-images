@@ -14,10 +14,8 @@ export async function runtime(context: RuntimeContext) {
     const imageNames = Object.keys(context.imageConfigurations);
     const rootDirectory = path.join(__dirname, "../");
     const baseDirectory = path.join(rootDirectory, "images");
-    const assetsDirectory = path.resolve(rootDirectory, "assets");
-    const assetFiles = await getFilesFromBase(assetsDirectory);
+    const assetsBaseDirectory = path.resolve(rootDirectory, "assets");
     const include = [];
-
 
     if(existsSync(baseDirectory)) {
         await fs.rm(baseDirectory, {recursive: true});
@@ -27,6 +25,8 @@ export async function runtime(context: RuntimeContext) {
 
     for await (const imageName of imageNames) {
         const imageConfiguration = context.imageConfigurations[imageName];
+        const assetsDirectory = path.resolve(assetsBaseDirectory, imageName);
+        const assetFiles = await getFilesFromBase(assetsDirectory);
 
         for await (const version of imageConfiguration.versions) {
             for await (const variant of imageConfiguration.variants) {
