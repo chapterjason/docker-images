@@ -11,7 +11,7 @@ jobs:
         steps:
             -   id: load-matrix
                 run: |
-                    JSON=$(cat ../../matrix.json)
+                    JSON=$(cat ./matrix.json)
                     echo "::set-output name=matrix::${JSON//'%'/'%25'}"
 
     build:
