@@ -4,59 +4,43 @@ on:
     pull_request:
 
 jobs:
+    prepare:
+        runs-on: ubuntu-20.04
+        outputs:
+            matrix: ${{ steps.load-matrix.outputs.matrix }}
+        steps:
+            -   id: load-matrix
+                run: |
+                    JSON=$(cat ../../matrix.json)
+                    echo "::set-output name=matrix::${JSON//'%'/'%25'}"
+
     build:
         runs-on: ubuntu-20.04
-
+        needs: prepare
         strategy:
             fail-fast: true
-            matrix:
-                include:
-                    -   directory: "./images/php/8.1-cli-alpine"
-                        image: "chapterjason/php"
-                        tag: "8.1-cli-alpine"
-                    -   directory: "./images/php/8.1-cli-node-alpine"
-                        image: "chapterjason/php"
-                        tag: "8.1-cli-node-alpine"
-                    -   directory: "./images/php/8.1-fpm-alpine"
-                        image: "chapterjason/php"
-                        tag: "8.1-fpm-alpine"
-                    -   directory: "./images/php/8.1-fpm-node-alpine"
-                        image: "chapterjason/php"
-                        tag: "8.1-fpm-node-alpine"
-                    -   directory: "./images/symfony-php/8.1-fpm-alpine"
-                        image: "chapterjason/symfony-php"
-                        tag: "8.1-fpm-alpine"
-                    -   directory: "./images/symfony-php/8.1-fpm-node-alpine"
-                        image: "chapterjason/symfony-php"
-                        tag: "8.1-fpm-node-alpine"
-                    -   directory: "./images/symfony-php/8.1-cli-alpine"
-                        image: "chapterjason/symfony-php"
-                        tag: "8.1-cli-alpine"
-                    -   directory: "./images/symfony-php/8.1-cli-node-alpine"
-                        image: "chapterjason/symfony-php"
-                        tag: "8.1-cli-node-alpine"
-                    -   directory: "./images/symfony-caddy/2-builder-alpine"
-                        image: "chapterjason/symfony-caddy"
-                        tag: "2-builder-alpine"
+            matrix: ${{fromJson(needs.prepare.outputs.matrix)}}
         steps:
             -   uses: actions/checkout@v2
-            
+
             -   name: Set up QEMU
                 uses: docker/setup-qemu-action@v1
 
             -   name: Set up Docker Buildx
                 uses: docker/setup-buildx-action@v1
-            
+
             -   name: Extract metadata (tags, labels) for Docker
                 id: meta
                 uses: docker/metadata-action@v3
                 with:
                     images: ${{ matrix.image }}
                     tags: type=raw,value=${{ matrix.tag }}
-            
+
             -   name: Build and push Docker images
                 uses: docker/build-push-action@v2
                 with:
                     context: ${{ matrix.directory }}
                     tags: ${{ steps.meta.outputs.tags }}
                     labels: ${{ steps.meta.outputs.labels }}
+                    cache-from: type=local,src=/tmp/.buildx-cache
+                    cache-to: type=local,mode=max,dest=/tmp/.buildx-cache

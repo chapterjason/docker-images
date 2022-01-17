@@ -1,7 +1,0 @@
-
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
-
-# see https://getcomposer.org/doc/03-cli.md#composer-allow-superuser
-ENV COMPOSER_ALLOW_SUPERUSER=1
-
-ENV PATH="${PATH}:/root/.composer/vendor/bin"

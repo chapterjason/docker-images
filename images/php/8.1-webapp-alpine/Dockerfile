@@ -1,9 +1,9 @@
 ################################################################################
 #### Begin stage
 #### php
-#### {}
+#### {"fpm":true,"symfony":true,"runtime_dependencies":[],"build_dependencies":[],"php_extension_install":[],"php_extension_enable":[]}
 ################################################################################
-ARG PHP_TAG=8.1-cli-alpine
+ARG PHP_TAG=8.1-fpm-alpine
 ARG PHP_IMAGE=php:${PHP_TAG}
 
 FROM ${PHP_IMAGE}
@@ -59,4 +59,21 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 # see https://getcomposer.org/doc/03-cli.md#composer-allow-superuser
 ENV COMPOSER_ALLOW_SUPERUSER=1
 ENV PATH="${PATH}:/root/.composer/vendor/bin"
+
+COPY php-fpm-docker-healthcheck.sh /usr/local/bin/docker-healthcheck
+RUN chmod +x /usr/local/bin/docker-healthcheck
+
+HEALTHCHECK --interval=10s --timeout=3s --retries=3 CMD ["docker-healthcheck"]
+
+COPY php-fpm.d/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
+
+VOLUME /var/run/php
+
+COPY conf.d/symfony.ini-production $PHP_INI_DIR/conf.d/symfony.ini-production
+COPY conf.d/symfony.ini-development $PHP_INI_DIR/conf.d/symfony.ini-development
+
+COPY symfony-docker-entrypoint.sh /usr/local/bin/docker-entrypoint
+RUN chmod +x /usr/local/bin/docker-entrypoint
+
+ENTRYPOINT ["docker-entrypoint"]
 ### template end: php

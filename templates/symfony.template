@@ -1,8 +1,0 @@
-
-COPY conf.d/symfony.ini-production $PHP_INI_DIR/conf.d/symfony.ini-production
-COPY conf.d/symfony.ini-development $PHP_INI_DIR/conf.d/symfony.ini-development
-
-COPY symfony-docker-entrypoint.sh /usr/local/bin/docker-entrypoint
-RUN chmod +x /usr/local/bin/docker-entrypoint
-
-ENTRYPOINT ["docker-entrypoint"]
