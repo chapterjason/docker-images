@@ -82,5 +82,5 @@ export async function runtime(context: RuntimeContext) {
 
     const matrix = {include};
 
-    await fs.writeFile(path.join(rootDirectory, "matrix.json"), JSON.stringify(matrix, null, 4));
+    await fs.writeFile(path.join(rootDirectory, "matrix.json"), JSON.stringify(matrix));
 }
