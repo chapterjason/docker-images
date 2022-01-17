@@ -1,7 +1,7 @@
 ################################################################################
 #### Begin stage
 #### php
-#### {"fpm":true,"symfony":true,"runtime_dependencies":[],"build_dependencies":["postgresql-dev"],"php_extension_install":["pdo","pdo_pgsql"],"php_pecl_install":["pdo","pdo_pgsql","redis","timezonedb"],"php_extension_enable":["redis","timezonedb"]}
+#### {"fpm":true,"symfony":true,"runtime_dependencies":[],"build_dependencies":["postgresql-dev"],"php_extension_install":["pdo","pdo_pgsql"],"php_pecl_install":["redis","timezonedb"],"php_extension_enable":["redis","timezonedb"]}
 ################################################################################
 ARG PHP_TAG=8.1-fpm-alpine
 ARG PHP_IMAGE=php:${PHP_TAG}
@@ -43,8 +43,6 @@ RUN set -eux; \
             ; \
     pecl install \
         apcu-${APCU_VERSION} \
-                pdo \
-                pdo_pgsql \
                 redis \
                 timezonedb \
             ; \

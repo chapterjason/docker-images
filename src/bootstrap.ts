@@ -58,7 +58,7 @@ export async function bootstrap(): Promise<RuntimeContext> {
                         runtime_dependencies: [],
                         build_dependencies: ["postgresql-dev"],
                         php_extension_install: ["pdo", "pdo_pgsql"],
-                        php_pecl_install: ["pdo", "pdo_pgsql", "redis", "timezonedb"],
+                        php_pecl_install: ["redis", "timezonedb"],
                         php_extension_enable: ["redis", "timezonedb"],
                     }
                 },
