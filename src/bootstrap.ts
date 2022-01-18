@@ -80,7 +80,7 @@ export async function bootstrap(): Promise<RuntimeContext> {
         },
         "snapcast": {
             sourceImage: "alpine",
-            targetImage: "chapterjason/snapccast",
+            targetImage: "chapterjason/snapcast",
             versions: [
                 "3",
             ],
