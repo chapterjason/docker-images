@@ -63,6 +63,18 @@ export async function bootstrap(): Promise<RuntimeContext> {
                         php_extension_enable: ["redis", "timezonedb"],
                     }
                 },
+                {
+                    sourceTag: "{{VERSION}}-cli-alpine",
+                    targetTag: "{{VERSION}}-worker-alpine",
+                    context: {
+                        symfony: true,
+                        runtime_dependencies: [],
+                        build_dependencies: ["postgresql-dev"],
+                        php_extension_install: ["pdo", "pdo_pgsql"],
+                        php_pecl_install: ["redis", "timezonedb"],
+                        php_extension_enable: ["redis", "timezonedb"],
+                    }
+                },
             ],
         },
         "caddy": {
