@@ -1,0 +1,17 @@
+
+ARG user=mpd
+ARG group=audio
+
+RUN apk add --no-cache mpd mpc
+
+RUN mkdir -p /home/mpd/music \
+    && mkdir -p /home/mpd/playlists \
+    && mkdir -p /home/mpd/database \
+    && mkdir -p /home/mpd/mpd.log \
+    && chown -R ${user}:${group} /home/mpd \
+    && chown -R ${user}:${group} /home/mpd/mpd.log
+
+VOLUME ["/home/mpd/music", "/home/mpd/playlists", "/home/mpd/database", "/home/mpd/fifo"]
+COPY mpd.conf /etc/mpd.conf
+
+CMD ["mpd", "--stdout", "--no-daemon"]

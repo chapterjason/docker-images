@@ -15,10 +15,11 @@ EXPOSE 1705
 
 RUN set -eux; \
     mkdir -p /app/files; \
-    apk add --no-cache snapcast-server mpg123; sync
+    apk add --no-cache snapcast-server; sync
 
 COPY snapcast-server-entrypoint.sh /usr/local/bin/docker-entrypoint
 COPY snapcast-server.conf /etc/conf.d/snapcast-server
+COPY snapserver.conf /etc/snapserver.conf
 COPY asound.conf /etc/asound.conf
 {% endif %}
 

@@ -26,6 +26,7 @@ export async function bootstrap(): Promise<RuntimeContext> {
     templateRegistry.register("php", new Template('../templates/php.dockerfile.twig'));
     templateRegistry.register("caddy", new Template('../templates/caddy.dockerfile.twig'));
     templateRegistry.register("snapcast", new Template('../templates/snapcast.dockerfile.twig'));
+    templateRegistry.register("mpd", new Template('../templates/mpd.dockerfile.twig'));
 
     const imageConfigurations: Record<string, ImageConfiguration> = {
         "php": {
@@ -102,6 +103,19 @@ export async function bootstrap(): Promise<RuntimeContext> {
             variants: [
                 { sourceTag: "{{VERSION}}", targetTag: "{{VERSION}}-server-alpine", context: { server: true } },
                 { sourceTag: "{{VERSION}}", targetTag: "{{VERSION}}-client-alpine", context: { client: true } },
+            ],
+        },
+        "mpd": {
+            sourceImage: "alpine",
+            targetImage: "chapterjason/mpd",
+            versions: [
+                "3",
+            ],
+            templates: [
+                "mpd",
+            ],
+            variants: [
+                { sourceTag: "{{VERSION}}", targetTag: "{{VERSION}}-mpd-alpine" },
             ],
         },
     }
