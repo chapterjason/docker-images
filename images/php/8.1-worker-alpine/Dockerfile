@@ -1,7 +1,7 @@
 ################################################################################
 #### Begin stage
 #### php
-#### {"symfony":true,"runtime_dependencies":[],"build_dependencies":["postgresql-dev"],"php_extension_install":["pdo","pdo_pgsql"],"php_pecl_install":["redis","timezonedb"],"php_extension_enable":["redis","timezonedb"]}
+#### {"symfony":true,"runtime_dependencies":[],"build_dependencies":["postgresql-dev"],"php_extension_install":["pdo","pdo_pgsql"],"php_pecl_install":["redis","timezonedb","redis"],"php_extension_enable":["redis","timezonedb","redis"]}
 ################################################################################
 ARG PHP_TAG=8.1-cli-alpine
 ARG PHP_IMAGE=php:${PHP_TAG}
@@ -45,6 +45,7 @@ RUN set -eux; \
         apcu-${APCU_VERSION} \
                 redis \
                 timezonedb \
+                redis \
             ; \
     pecl clear-cache; \
     docker-php-ext-enable \
@@ -52,6 +53,7 @@ RUN set -eux; \
         opcache \
                 redis \
                 timezonedb \
+                redis \
             ; \
     runDeps="$( \
         scanelf --needed --nobanner --format '%n#p' --recursive /usr/local/lib/php/extensions \
