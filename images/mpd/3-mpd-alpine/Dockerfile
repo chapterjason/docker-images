@@ -12,6 +12,8 @@ FROM ${ALPINE_IMAGE}
 ARG user=mpd
 ARG group=audio
 
+WORKDIR /home/mpd
+
 RUN apk add --no-cache mpd mpc python3 ffmpeg py-pip \
     && python3 -m pip install --no-deps -U yt-dlp \
     && mkdir -p /home/mpd/music \
