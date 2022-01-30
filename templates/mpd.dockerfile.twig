@@ -4,7 +4,7 @@ ARG group=audio
 
 WORKDIR /home/mpd
 
-RUN apk add --no-cache mpd mpc python3 ffmpeg jq curl py-pip \
+RUN apk add --no-cache mpd mpc python3 ffmpeg jq curl py-pip libstdc++ \
     && python3 -m pip install --no-deps -U yt-dlp \
     && mkdir -p /home/mpd/music \
     && mkdir -p /home/mpd/playlists \
@@ -18,6 +18,7 @@ COPY mpd.conf /etc/mpd.conf
 
 COPY publish-state.sh /home/mpd/publish-state.sh
 COPY publish-playlist.sh /home/mpd/publish-playlist.sh
+COPY --from=realies/audiowaveform:latest /usr/local/bin/audiowaveform /usr/local/bin/audiowaveform
 
 RUN chmod +x /home/mpd/publish-state.sh
 RUN chmod +x /home/mpd/publish-playlist.sh
