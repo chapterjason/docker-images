@@ -1,11 +1,12 @@
 #!/usr/bin/env sh
 set -e
 
-JWT_TOKEN_FILE=./jwt_token.txt
-ENDPOINT=./domain.txt
+TOKEN_FILE=./token.txt
+ENDPOINT_FILE=./endpoint.txt
 LAST_STATUS_FILE=./mpc_last_status.txt
 
-TOKEN=$(cat $JWT_TOKEN_FILE)
+TOKEN=$(cat $TOKEN_FILE)
+ENDPOINT=$(cat $ENDPOINT_FILE)
 
 echo "" >$LAST_STATUS_FILE
 
@@ -14,7 +15,8 @@ loop() {
   CURRENT_STATUS=$(mpc status)
 
   if [ "$CURRENT_STATUS" != "$LAST_STATUS" ]; then
-    curl -d 'topic=/api/station/state' -d "data=$STATUS" -H "Authorization: Bearer $TOKEN" -X POST $ENDPOINT
+    DATA=$(jq -c -n --arg status "$CURRENT_STATUS" '{status: $status}')
+    curl -d 'topic=/api/station/state' -d "data=$DATA" -H "Authorization: Bearer $TOKEN" -X POST $ENDPOINT
     echo "$CURRENT_STATUS" >$LAST_STATUS_FILE
   fi
 }
