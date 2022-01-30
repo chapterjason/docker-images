@@ -25,6 +25,9 @@ RUN apk add --no-cache mpd mpc python3 ffmpeg curl py-pip \
 
 VOLUME ["/home/mpd/music", "/home/mpd/playlists", "/home/mpd/database", "/home/mpd/fifo"]
 COPY mpd.conf /etc/mpd.conf
+COPY publish.sh /home/mpd/publish.sh
+
+RUN chmod +x /home/mpd/publish.sh
 
 CMD ["mpd", "--stdout", "--no-daemon"]
 ### template end: mpd
