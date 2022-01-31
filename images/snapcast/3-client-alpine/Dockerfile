@@ -12,7 +12,7 @@ FROM ${ALPINE_IMAGE}
 WORKDIR /app
 
 RUN set -eux; \
-    apk add --no-cache snapcast-client; sync
+    apk add --no-cache snapcast-client alsa-utils; sync
 
 COPY snapcast-client-entrypoint.sh /usr/local/bin/docker-entrypoint
 

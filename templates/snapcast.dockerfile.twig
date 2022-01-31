@@ -3,7 +3,7 @@ WORKDIR /app
 
 {% if client is defined and client is same as(true) %}
 RUN set -eux; \
-    apk add --no-cache snapcast-client; sync
+    apk add --no-cache snapcast-client alsa-utils; sync
 
 COPY snapcast-client-entrypoint.sh /usr/local/bin/docker-entrypoint
 {% endif %}
