@@ -23,7 +23,7 @@ RUN set -eux; \
 COPY snapcast-server-entrypoint.sh /usr/local/bin/docker-entrypoint
 COPY snapcast-server.conf /etc/conf.d/snapcast-server
 COPY snapserver.conf /etc/snapserver.conf
-COPY asound.conf /etc/asound.conf
+COPY server-asound.conf /etc/asound.conf
 
 RUN chmod +x /usr/local/bin/docker-entrypoint
 

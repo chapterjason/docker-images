@@ -14,6 +14,10 @@ WORKDIR /app
 RUN set -eux; \
     apk add --no-cache snapcast-client alsa-utils; sync
 
+ENV ALSA_CARD=0
+
+COPY client-asound.conf /etc/asound.conf
+
 COPY snapcast-client-entrypoint.sh /usr/local/bin/docker-entrypoint
 
 
